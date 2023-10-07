@@ -5,17 +5,26 @@ const mongoose = require("mongoose");
 const errorHandlerMiddlerware = require("./middleware/error-handler");
 const notFound = require("./middleware/not-found");
 require("dotenv").config();
+const { dirname } = require("path");
+const fileURLToPath = require("url");
+const path = require("path");
 const cors = require("cors");
-
-app.use(express.json());
 
 app.use(cors());
 
+// const __dirName = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./FRONTEND/dist")));
+
+app.use(express.json());
 app.get("/hello", (req, res) => {
   res.send("Task Manager App");
 });
 
 app.use("/api/v1/tasks", tasks);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./FRONTEND/dist", "index.html"));
+});
 
 app.use(notFound);
 app.use(errorHandlerMiddlerware);
