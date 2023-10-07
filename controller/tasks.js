@@ -34,11 +34,24 @@ const updateTask = asyncWrapper(async (req, res, next) => {
 const deleteTask = asyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params;
   const task = await Task.findOneAndDelete({ _id: taskID });
+  console.log(task);
   if (!task) {
     return next(customAPIError(`No task with id: ${taskID}`, 404));
   }
 
   res.status(200).json({ task });
+});
+
+const deleteCompletedTask = asyncWrapper(async (req, res, next) => {
+  const filter = { completed: true };
+
+  const task = await Task.deleteMany(filter);
+  console.log(task);
+  if (task.deletedCount > 0) {
+    res.status(200).json({ task });
+  } else {
+    return next(customAPIError(`No completed task found to delete`, 404));
+  }
 });
 
 module.exports = {
@@ -47,4 +60,5 @@ module.exports = {
   getTask,
   updateTask,
   deleteTask,
+  deleteCompletedTask,
 };

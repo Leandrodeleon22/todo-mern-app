@@ -31,6 +31,13 @@ const Todo = () => {
     },
   });
 
+  const { mutate: deleteCompleted } = useMutation({
+    mutationFn: () => customFetch.delete("/"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+
   if (response.isLoading) {
     return <h1>Loading.....</h1>;
   }
@@ -140,7 +147,9 @@ const Todo = () => {
                   Completed
                 </span>
               </div>
-              <p className="clear-completed">Clear Completed</p>
+              <p className="clear-completed" onClick={() => deleteCompleted()}>
+                Clear Completed
+              </p>
             </div>
 
             <div className="whole-middle-group-description">
