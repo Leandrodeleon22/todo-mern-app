@@ -12,8 +12,8 @@ const cors = require("cors");
 
 app.use(cors());
 
-// const __dirName = dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.resolve(__dirname, "./FRONTEND/dist")));
+// const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./public")));
 
 app.use(express.json());
 app.get("/hello", (req, res) => {
@@ -23,7 +23,7 @@ app.get("/hello", (req, res) => {
 app.use("/api/v1/tasks", tasks);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./FRONTEND/dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
 });
 
 app.use(notFound);
