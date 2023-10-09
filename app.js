@@ -22,9 +22,9 @@ app.get("/hello", (req, res) => {
 
 app.use("/api/v1/tasks", tasks);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./public", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "./public", "index.html"));
+// });
 
 app.use(notFound);
 app.use(errorHandlerMiddlerware);
